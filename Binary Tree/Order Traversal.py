@@ -103,6 +103,46 @@ class BinarySearchTreeNode:
 
         return elements
 
+    def  delete_right(self, value):
+        if value < self.data:
+            if self.left:
+                self.left = self.left.delete_right(value)
+        elif value > self.data:
+            if self.right:
+                self.right = self.right.delete_right(value)
+        else:
+            if self.left is None and self.right is None:
+                return None
+            if self.left is None:
+                return self.right
+            if self.right is None:
+                return self.left
+
+            min_value = self.right.find_min()
+            self.data = min_value
+            self.right = self.right.delete_right(min_value)
+        return self
+
+    def delete_left(self, value):
+        if value < self.data:
+            if self.left:
+                self.left = self.left.delete_left(value)
+        elif value > self.data:
+            if self.right:
+                self.right = self.right.delete_left(value)
+        else:
+            if self.left is None and self.right is None:
+                return None
+            if self.left is None:
+                return self.right
+            if self.right is None:
+                return self.left
+
+            max_value = self.left.find_min()
+            self.data = max_value
+            self.left = self.left.delete_left(max_value)
+        return self
+
 
 def build_tree(elements):
     root = BinarySearchTreeNode(elements[0])
@@ -117,7 +157,7 @@ if __name__ == "__main__":
 
     numbers_tree = build_tree(numbers)
 
-    print(numbers_tree.search(21))
+    '''print(numbers_tree.search(21))
 
     print(numbers_tree.find_min())
     print(numbers_tree.find_max())
@@ -126,4 +166,12 @@ if __name__ == "__main__":
 
     print(numbers_tree.pre_order_traversal())
 
-    print(numbers_tree.post_order_traversal())
+    print(numbers_tree.post_order_traversal())'''
+
+    numbers_tree.delete_right(4)
+
+    print(numbers_tree.in_order_traversal())
+
+    numbers_tree.delete_left(20)
+
+    print(numbers_tree.in_order_traversal())
